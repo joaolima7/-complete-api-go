@@ -14,7 +14,7 @@ type User struct {
 	Password string
 }
 
-func New(id uint64, name string, email string, password string) (*User, *errs.AppError) {
+func NewUser(id uint64, name string, email string, password string) (*User, error) {
 	user := User{
 		ID:       id,
 		Name:     name,
@@ -44,34 +44,39 @@ func New(id uint64, name string, email string, password string) (*User, *errs.Ap
 	return &user, nil
 }
 
-func (u *User) ValidatePassword() *errs.AppError {
-	if ok, err := regexp.MatchString(`^.{8,}$`, u.Password); !ok {
-		return errs.DomainValidation("a senha deve conter no minimo 8 caracteres", err)
+func (u *User) ValidatePassword() error {
+	patterns := []struct {
+		regex   string
+		message string
+	}{
+		{`^.{8,}$`, "a senha deve conter no mínimo 8 caracteres"},
+		{`[[:lower:]]`, "a senha deve conter pelo menos uma letra minúscula"},
+		{`[[:upper:]]`, "a senha deve conter pelo menos uma letra maiúscula"},
+		{`[0-9]`, "a senha deve conter pelo menos um número"},
+		{`[!@#\$%\^&\*\(\)_\+\-=\[\]{};':"\\|,.<>\/?]`, "a senha deve conter pelo menos um caractere especial"},
 	}
-	if ok, err := regexp.MatchString(`[[:lower:]]`, u.Password); !ok {
-		return errs.DomainValidation("a senha deve conter pelo menos uma letra minúscula", err)
-	}
-	if ok, err := regexp.MatchString(`[[:upper:]]`, u.Password); !ok {
-		return errs.DomainValidation("a senha deve conter pelo menos uma letra maiúscula", err)
-	}
-	if ok, err := regexp.MatchString(`[0-9]`, u.Password); !ok {
-		return errs.DomainValidation("a senha deve conter pelo menos um número", err)
-	}
-	if ok, err := regexp.MatchString(`[!@#\$%\^&\*\(\)_\+\-=\[\]{};':"\\|,.<>\/?]`, u.Password); !ok {
-		return errs.DomainValidation("a senha deve conter pelo menos um caractere especial", err)
+
+	for _, p := range patterns {
+		ok, err := regexp.MatchString(p.regex, u.Password)
+		if err != nil {
+			return errs.Internal("erro ao validar expressão regular", err)
+		}
+		if !ok {
+			return errs.DomainValidation(p.message, nil)
+		}
 	}
 
 	return nil
 }
 
-func (u *User) ValidateEmail() *errs.AppError {
+func (u *User) ValidateEmail() error {
 	if ok, err := regexp.MatchString(`^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$`, u.Email); !ok {
 		return errs.DomainValidation("email inválido", err)
 	}
 	return nil
 }
 
-func (u *User) ValidateName() *errs.AppError {
+func (u *User) ValidateName() error {
 	if ok, err := regexp.MatchString(`^[a-zA-Z\s]+$`, u.Name); !ok {
 		return errs.DomainValidation("nome inválido, deve conter apenas letras e espaços", err)
 	}
