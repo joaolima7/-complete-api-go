@@ -1,19 +1,20 @@
-package entity
+package product
 
 import (
 	"strings"
 
+	"github.com/google/uuid"
 	"github.com/joaolima7/-complete-api-go/internal/domain/errs"
 )
 
 type Product struct {
-	ID     uint64
+	ID     string
 	Name   string
 	Price  float64
 	MarkID uint64
 }
 
-func NewProduct(id uint64, name string, price float64, markID uint64) (*Product, error) {
+func NewProduct(name string, price float64, markID uint64) (*Product, error) {
 	trimmedName := strings.TrimSpace(name)
 	if trimmedName == "" {
 		return nil, errs.DomainValidation("o nome do produto não pode ser vazio", nil)
@@ -26,7 +27,7 @@ func NewProduct(id uint64, name string, price float64, markID uint64) (*Product,
 	}
 
 	product := &Product{
-		ID:     id,
+		ID:     uuid.NewString(),
 		Name:   trimmedName,
 		Price:  price,
 		MarkID: markID,
