@@ -1,10 +1,10 @@
 CREATE TABLE products (
-    id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+    id CHAR(36) PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    price DECIMAL(10,2) NOT NULL CHECK (price > 0),
-    mark_id UUID,
+    price DECIMAL(10,2) NOT NULL,
+    mark_id CHAR(36),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     
     CONSTRAINT fk_products_mark_id 
         FOREIGN KEY (mark_id) 

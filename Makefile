@@ -1,8 +1,8 @@
 migrate-up:
-		migrate -path=sql/migrations -database "postgres://root:root@tcp(localhost:5432)/mydb" -verbose up
+	migrate -path=sql/migrations -database "postgres://root:root@tcp(localhost:5432)/mydb" -verbose up
 
 migrate-down:
-		migrate -path=sql/migrations -database "postgres://root:root@tcp(localhost:5432)/mydb" -verbose down
+	migrate -path=sql/migrations -database "postgres://root:root@tcp(localhost:5432)/mydb" -verbose down
 
 docker-up:
         docker-compose up -d
