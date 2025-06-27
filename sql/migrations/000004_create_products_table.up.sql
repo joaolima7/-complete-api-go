@@ -2,7 +2,7 @@ CREATE TABLE products (
     id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
     name VARCHAR(255) NOT NULL,
     price DECIMAL(10,2) NOT NULL CHECK (price > 0),
-    mark_id UUID NOT NULL,
+    mark_id UUID,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     
