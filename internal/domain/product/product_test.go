@@ -3,11 +3,12 @@ package product
 import (
 	"testing"
 
+	"github.com/google/uuid"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestNewProduct(t *testing.T) {
-	product, err := NewProduct("Product Name", 100.0, 1)
+	product, err := NewProduct(uuid.NewString(), "Product Name", 100.0, 1)
 
 	assert.NoError(t, err)
 	assert.NotNil(t, product)
@@ -17,31 +18,31 @@ func TestNewProduct(t *testing.T) {
 }
 
 func TestNewProductInvalidName(t *testing.T) {
-	product, err := NewProduct("", 100.0, 1)
+	product, err := NewProduct(uuid.NewString(), "", 100.0, 1)
 	assert.Error(t, err)
 	assert.Nil(t, product)
 
-	product, err = NewProduct(" ", 100.0, 1)
+	product, err = NewProduct(uuid.NewString(), " ", 100.0, 1)
 	assert.Error(t, err)
 	assert.Nil(t, product)
 }
 
 func TestNewProductInvalidPrice(t *testing.T) {
-	product, err := NewProduct("Product Name", -10.0, 1)
+	product, err := NewProduct(uuid.NewString(), "Product Name", -10.0, 1)
 	assert.Error(t, err)
 	assert.Nil(t, product)
 
-	product, err = NewProduct("Product Name", 0.0, 1)
+	product, err = NewProduct(uuid.NewString(), "Product Name", 0.0, 1)
 	assert.Error(t, err)
 	assert.Nil(t, product)
 }
 
 func TestNewProductInvalidMarkID(t *testing.T) {
-	product, err := NewProduct("Product Name", 100.0, 0)
+	product, err := NewProduct(uuid.NewString(), "Product Name", 100.0, 0)
 	assert.Error(t, err)
 	assert.Nil(t, product)
 
-	product, err = NewProduct("Product Name", 100.0, 2)
+	product, err = NewProduct(uuid.NewString(), "Product Name", 100.0, 2)
 	assert.NoError(t, err)
 	assert.NotNil(t, product)
 	assert.Equal(t, uint64(2), product.MarkID)

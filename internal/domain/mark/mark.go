@@ -7,11 +7,11 @@ import (
 )
 
 type Mark struct {
-	ID   uint64
+	ID   string
 	Name string
 }
 
-func NewMark(id uint64, name string) (*Mark, error) {
+func NewMark(id string, name string) (*Mark, error) {
 	trimmedName := strings.TrimSpace(name)
 	if trimmedName == "" {
 		return nil, errs.DomainValidation("o nome da marca não pode ser vazio", nil)

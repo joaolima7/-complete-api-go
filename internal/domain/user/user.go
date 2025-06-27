@@ -8,13 +8,13 @@ import (
 )
 
 type User struct {
-	ID       uint64
+	ID       string
 	Name     string
 	Email    string
 	Password string
 }
 
-func NewUser(id uint64, name string, email string, password string) (*User, error) {
+func NewUser(id string, name string, email string, password string) (*User, error) {
 	user := User{
 		ID:       id,
 		Name:     name,
