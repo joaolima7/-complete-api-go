@@ -9,14 +9,14 @@ import (
 type ProductInputDTO struct {
 	Name   string  `json:"name"`
 	Price  float64 `json:"price"`
-	MarkID uint64  `json:"markID"`
+	MarkID string  `json:"markID"`
 }
 
 type ProductOutputDTO struct {
 	ID     string  `json:"id"`
 	Name   string  `json:"name"`
 	Price  float64 `json:"price"`
-	MarkID uint64  `json:"markID"`
+	MarkID string  `json:"markID"`
 }
 
 type CreateProductUseCase struct {

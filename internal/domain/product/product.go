@@ -10,19 +10,16 @@ type Product struct {
 	ID     string
 	Name   string
 	Price  float64
-	MarkID uint64
+	MarkID string
 }
 
-func NewProduct(id string, name string, price float64, markID uint64) (*Product, error) {
+func NewProduct(id string, name string, price float64, markID string) (*Product, error) {
 	trimmedName := strings.TrimSpace(name)
 	if trimmedName == "" {
 		return nil, errs.DomainValidation("o nome do produto não pode ser vazio", nil)
 	}
 	if price <= 0 {
 		return nil, errs.DomainValidation("o preço do produto deve ser maior que zero", nil)
-	}
-	if markID == 0 {
-		return nil, errs.DomainValidation("o ID da marca não pode ser zero", nil)
 	}
 
 	product := &Product{

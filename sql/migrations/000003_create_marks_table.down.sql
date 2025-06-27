@@ -1,0 +1,2 @@
+DROP INDEX IF EXISTS idx_marks_name;
+DROP TABLE IF EXISTS marks;
