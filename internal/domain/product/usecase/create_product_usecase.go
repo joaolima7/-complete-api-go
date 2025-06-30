@@ -33,7 +33,7 @@ func (u *CreateProductUseCase) Execute(input ProductInputDTO) (*ProductOutputDTO
 		return nil, err
 	}
 
-	product, err = u.CreateProductRepository.Execute(product)
+	product, err = u.CreateProductRepository.CreateProduct(product)
 	if err != nil {
 		return nil, err
 	}

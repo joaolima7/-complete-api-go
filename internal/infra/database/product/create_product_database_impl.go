@@ -17,7 +17,7 @@ func NewCreateProductDatabaseImpl(database *sql.DB) *CreateProductDatabaseImpl {
 	return &CreateProductDatabaseImpl{queries: db.New(database)}
 }
 
-func (cp *CreateProductDatabaseImpl) Execute(productInput *product.Product) (*product.Product, error) {
+func (cp *CreateProductDatabaseImpl) CreateProduct(productInput *product.Product) (*product.Product, error) {
 	ctx := context.Background()
 
 	params := db.CreateProductParams{
