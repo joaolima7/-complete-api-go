@@ -1,8 +1,8 @@
 package usecase
 
 import (
-	"time"
-
+	"github.com/google/uuid"
+	"github.com/joaolima7/-complete-api-go/internal/domain/mark"
 	"github.com/joaolima7/-complete-api-go/internal/domain/mark/repository"
 )
 
@@ -11,10 +11,8 @@ type MarkInputDTO struct {
 }
 
 type MarkOutputDTO struct {
-	ID         string    `json:"id"`
-	Name       string    `json:"name"`
-	Created_at time.Time `json:"created_at"`
-	Updated_at time.Time `json:"updated_at"`
+	ID   string `json:"id"`
+	Name string `json:"name"`
 }
 
 type CreateMarkUseCase struct {
@@ -25,4 +23,16 @@ func NewCreateMarkUseCase(createMarkRepository repository.CreateMarkRepository) 
 	return &CreateMarkUseCase{CreateMarkRepository: createMarkRepository}
 }
 
-func (u *CreateMarkUseCase) Execute(input MarkInputDTO) (*MarkOutputDTO, error)
+func (u *CreateMarkUseCase) Execute(input MarkInputDTO) (*MarkOutputDTO, error) {
+	mark, err := mark.NewMark(uuid.NewString(), input.Name)
+	if err != nil {
+		return nil, err
+	}
+	if _, err := u.CreateMarkRepository.CreateMark(mark); err != nil {
+		return nil, err
+	}
+	return &MarkOutputDTO{
+		ID:   mark.ID,
+		Name: mark.Name,
+	}, nil
+}
